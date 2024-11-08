@@ -1,9 +1,18 @@
-export interface SleepDetectorModel { 
+export interface SleepDetectorModelRequest { 
+    "name": string
+}
+
+export interface SleepDetectorRequest {
+    "name": string,
+    "model": string
+}
+
+export interface SleepDetectorModelResponse { 
     "id": string,
     "name": string
 }
 
-export interface SleepDetector {
+export interface SleepDetectorResponse {
     "id": string,
     "name": string,
     "model": string

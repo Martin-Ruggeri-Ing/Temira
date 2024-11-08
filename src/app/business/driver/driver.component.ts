@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DriverService } from '../../services/driver.service';
-import { Driver } from '../../models/driver.model';
+import { DriverResponse } from '../../models/driver.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddDriverComponent } from "./add-driver/add-driver.component";
@@ -13,7 +13,7 @@ import { AddDriverComponent } from "./add-driver/add-driver.component";
   styleUrl: './driver.component.css'
 })
 export class DriverComponent implements OnInit {
-  drivers: Driver[] = [];
+  drivers: DriverResponse[] = [];
   showAddDriverModal = false; // Controla la visibilidad del modal
 
   constructor(private driverService: DriverService) {}

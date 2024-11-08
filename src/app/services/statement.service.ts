@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Statement } from '../models/statement.model';
+import { StatementRequest, StatementResponse } from '../models/statement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +13,19 @@ export class StatementService {
 
   constructor(private http: HttpClient) { }
 
-  getStatements(): Observable<Statement[]> {
-    return this.http.get<Statement[]>(`${this.loginUrl}/all`);
+  getStatements(): Observable<StatementResponse[]> {
+    return this.http.get<StatementResponse[]>(`${this.loginUrl}/all`);
   }
 
-  getStatement(id: string): Observable<Statement> {
-    return this.http.get<Statement>(`${this.loginUrl}/${id}`);
+  getStatement(id: string): Observable<StatementResponse> {
+    return this.http.get<StatementResponse>(`${this.loginUrl}/${id}`);
   }
 
-  createStatement(statement: Statement): Observable<any> {
+  createStatement(statement: StatementRequest): Observable<any> {
     return this.http.post<any>(`${this.loginUrl}/add`, statement);
   }
 
-  updateStatement(id: string, statement: Statement): Observable<any> {
+  updateStatement(id: string, statement: StatementRequest): Observable<any> {
     return this.http.put<any>(`${this.loginUrl}/${id}`, statement);
   }
 

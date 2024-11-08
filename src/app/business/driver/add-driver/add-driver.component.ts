@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { DriverService } from '../../../services/driver.service';
-import { Driver } from '../../../models/driver.model';
+import { DriverRequest } from '../../../models/driver.model';
 import { CommonModule } from '@angular/common';
 
 
@@ -31,16 +30,19 @@ export class AddDriverComponent {
   // Submit handler for the form
   onSubmit() {
     if (this.addDriverForm.valid) {
-      const driverData: Driver = this.addDriverForm.value;
+      const driverData: DriverRequest = this.addDriverForm.value;
       this.driverService.createDriver(driverData).subscribe({
         next: () => {
           alert('Driver created successfully!');
           this.closeModal.emit();
         },
-        error: () => {
+        error: (err) => {
+          console.error('Error creating driver:', err);
           alert('Failed to create driver. Please try again.');
         }
       });
+    } else {
+      alert('Please fill out all required fields.');
     }
   }
 }

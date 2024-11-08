@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Driver } from '../models/driver.model';
+import { DriverRequest, DriverResponse } from '../models/driver.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +13,19 @@ export class DriverService {
 
   constructor(private http: HttpClient) { }
 
-  getDrivers(): Observable<Driver[]> {
-    return this.http.get<Driver[]>(`${this.loginUrl}/all`);
+  getDrivers(): Observable<DriverResponse[]> {
+    return this.http.get<DriverResponse[]>(`${this.loginUrl}/all`);
   }
 
-  getDriver(id: string): Observable<Driver> {
-    return this.http.get<Driver>(`${this.loginUrl}/${id}`);
+  getDriver(id: string): Observable<DriverResponse> {
+    return this.http.get<DriverResponse>(`${this.loginUrl}/${id}`);
   }
 
-  createDriver(driver: Driver): Observable<any> {
+  createDriver(driver: DriverRequest): Observable<any> {
     return this.http.post<any>(`${this.loginUrl}/add`, driver);
   }
 
-  updateDriver(id: string, driver: Driver): Observable<any> {
+  updateDriver(id: string, driver: DriverRequest): Observable<any> {
     return this.http.put<any>(`${this.loginUrl}/${id}`, driver);
   }
 

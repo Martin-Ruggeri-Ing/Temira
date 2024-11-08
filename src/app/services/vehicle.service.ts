@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { Vehicle } from '../models/vehicle.model';
+import { VehicleRequest, VehicleBrandResponse } from '../models/vehicle.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +13,19 @@ export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
-  getVehicles(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.loginUrl}/all`);
+  getVehicles(): Observable<VehicleBrandResponse[]> {
+    return this.http.get<VehicleBrandResponse[]>(`${this.loginUrl}/all`);
   }
 
-  getVehicle(id: string): Observable<Vehicle> {
-    return this.http.get<Vehicle>(`${this.loginUrl}/${id}`);
+  getVehicle(id: string): Observable<VehicleBrandResponse> {
+    return this.http.get<VehicleBrandResponse>(`${this.loginUrl}/${id}`);
   }
 
-  createVehicle(vehicle: Vehicle): Observable<any> {
+  createVehicle(vehicle: VehicleRequest): Observable<any> {
     return this.http.post<any>(`${this.loginUrl}/add`, vehicle);
   }
 
-  updateVehicle(id: string, vehicle: Vehicle): Observable<any> {
+  updateVehicle(id: string, vehicle: VehicleRequest): Observable<any> {
     return this.http.put<any>(`${this.loginUrl}/${id}`, vehicle);
   }
 
