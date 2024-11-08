@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { LoginRequest } from '../models/login.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  login(username: string, password: string): Observable<any> {
-    return this.httpClient.post<any>(this.loginUrl, {username, password}).pipe(
+  login(login: LoginRequest): Observable<any> {
+    return this.httpClient.post<any>(this.loginUrl, login).pipe(
       tap(response => {
         console.log('AuthService.login', response.token);
         localStorage.setItem(this.tokenKey, response.token);

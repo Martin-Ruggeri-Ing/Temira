@@ -16,55 +16,69 @@
   </div>
   <div class="flex justify-center self-center z-10">
     <div class="p-12 bg-white mx-auto rounded-3xl w-96">
-      <div class="mb-7">
-        <h3 class="font-semibold text-2xl text-gray-800">Iniciar sesion</h3>
-        <p class="text-gray-400">
-          ¿No tienes una cuenta?
-          <a href="#" class="text-sm text-purple-700 hover:text-purple-700"
-            >Inscribete</a
-          >
-        </p>
-      </div>
-      <div class="space-y-6">
-        <div class="">
-          <input
-            [(ngModel)]="username"
-            class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-            type=""
-            placeholder="Username"
-          />
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-7">
+          <h3 class="font-semibold text-2xl text-gray-800">Iniciar sesión</h3>
+          <p class="text-gray-400">
+            ¿No tienes una cuenta?
+            <a href="#" class="text-sm text-purple-700 hover:text-purple-700"
+              >Inscríbete</a
+            >
+          </p>
         </div>
 
-        <div class="relative" x-data="{ show: true }">
-          <input
-            [(ngModel)]="password"
-            placeholder="Password"
-            type="password"
-            style="color: #000"
-            class="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
-          />
-          <div
-            class="flex items-center absolute inset-y-0 right-0 mr-3 text-sm leading-5"
-          ></div>
-        </div>
+        <div class="space-y-6">
+          <!-- Campo de usuario -->
+          <div>
+            <input
+              formControlName="username"
+              class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+              type="text"
+              placeholder="Username"
+            />
+            <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+              <p class="text-red-600 text-xs mt-1">Nombre de usuario es requerido</p>
+            </div>
+          </div>
 
-        <div class="flex items-center justify-between">
-          <div class="text-sm ml-auto">
-            <a href="#" class="text-purple-700 hover:text-purple-600">
-              ¿Olvidaste tu contraseña?
-            </a>
+          <!-- Campo de contraseña -->
+          <div class="relative">
+            <input
+              formControlName="password"
+              type="password"
+              placeholder="Password"
+              class="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
+            />
+            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+              <p class="text-red-600 text-xs mt-1">Contraseña es requerida</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="text-sm ml-auto">
+              <a href="#" class="text-purple-700 hover:text-purple-600">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+          </div>
+
+          <!-- Botón de inicio de sesión -->
+          <div>
+            <button
+              type="submit"
+              class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
+            >
+              Iniciar sesión
+            </button>
+          </div>
+
+          <!-- Mensaje de error de login -->
+          <div *ngIf="loginError" class="text-red-600 text-center text-xs mt-4">
+            {{ loginError }}
           </div>
         </div>
-        <div>
-          <button
-            (click)="login()"
-            type="submit"
-            class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
-          >
-            Iniciar sesion
-          </button>
-        </div>
-      </div>
+      </form>
+
       <div class="mt-7 text-center text-gray-300 text-xs">
         <span> Copyright © 2021-2024 </span>
       </div>
