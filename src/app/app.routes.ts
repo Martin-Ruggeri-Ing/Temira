@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './business/guards/auth.guard';
-import { AuthenticatedGuard } from './business/guards/authenticated.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 
 export const routes: Routes = [
     {
@@ -10,6 +10,11 @@ export const routes: Routes = [
             {
                 path: 'driver',
                 loadComponent: () => import('./business/driver/driver.component').then(m => m.DriverComponent),
+                canActivate: [AuthGuard]
+            },
+            {
+                path: 'driver/add',
+                loadComponent: () => import('./business/driver/add-driver/add-driver.component').then(m => m.AddDriverComponent),
                 canActivate: [AuthGuard]
             },
             {

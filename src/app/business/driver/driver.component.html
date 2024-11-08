@@ -1,1 +1,20 @@
-<p>driver works!</p>
+<div class="driver-container">
+    <!-- Botón para abrir el modal de agregar conductor -->
+    <button (click)="openAddDriverModal()">Agregar Conductor</button>
+  
+    <!-- Modal para el formulario de agregar conductor -->
+    <div class="modal" *ngIf="showAddDriverModal">
+      <div class="modal-content">
+        <app-add-driver (closeModal)="closeAddDriverModal()"></app-add-driver>
+        <button (click)="closeAddDriverModal()">Cerrar</button>
+      </div>
+    </div>
+  
+    <!-- Lista de conductores -->
+    <h3>Lista de Conductores</h3>
+    <ul>
+      <li *ngFor="let driver of drivers">
+        {{ driver.firstName }} {{ driver.lastName }}
+      </li>
+    </ul>
+  </div>
