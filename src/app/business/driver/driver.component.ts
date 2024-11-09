@@ -4,12 +4,12 @@ import { DriverResponse } from '../../models/driver.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddDriverComponent } from "./add-driver/add-driver.component";
-import { DriverDetailComponent } from './driver-detail/driver-detail.component';
+import { DetailDriverComponent } from './detail-driver/detail-driver.component';
 
 @Component({
   selector: 'app-driver',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, AddDriverComponent, DriverDetailComponent],
+  imports: [ReactiveFormsModule, CommonModule, AddDriverComponent, DetailDriverComponent],
   templateUrl: './driver.component.html',
   styleUrl: './driver.component.css'
 })

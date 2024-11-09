@@ -1,11 +1,4 @@
 
-export interface VehicleBrandRequest {
-    "name": string
-}
-
-export interface VehicleTypeRequest { 
-    "name": string
-}
 
 export interface VehicleRequest {
     "type": string,
@@ -14,16 +7,6 @@ export interface VehicleRequest {
     "model": number
 }
 
-
-export interface VehicleBrandResponse {
-    "id": string,
-    "name": string
-}
-
-export interface VehicleTypeResponse { 
-    "id": string,
-    "name": string
-}
 
 export interface VehicleResponse {
     "id": string,

@@ -1,11 +1,9 @@
 export interface StatementRequest {
-    "id": string,
     "sleepDetector": string,
     "driver": string,
     "vehicle": string,
-    "dateCreation": string,
     "destination": string,
-    "pathPdf": string,
+    "csvFile": File,
 }
 
 export interface StatementResponse {
@@ -13,7 +11,6 @@ export interface StatementResponse {
     "sleepDetector": string,
     "driver": string,
     "vehicle": string,
-    "dateCreation": string,
     "destination": string,
     "pathPdf": string,
 }

@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-driver-detail',
+  selector: 'app-detail-sleep-detector',
   standalone: true,
-  templateUrl: './driver-detail.component.html',
-  styleUrls: ['./driver-detail.component.css']
+  imports: [],
+  templateUrl: './detail-sleep-detector.component.html',
+  styleUrl: './detail-sleep-detector.component.css'
 })
-export class DriverDetailComponent implements OnInit {
-  @Input() firstName!: string;
-  @Input() lastName!: string;
-  @Input() index!: number;  // Recibe el índice de la tarjeta
+export class DetailSleepDetectorComponent implements OnInit {
+  @Input() name!: string;
+  @Input() model!: string;
+  @Input() index!: number; // Recibe el índice de la tarjeta
 
   avatarColor!: string;
 

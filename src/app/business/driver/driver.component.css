@@ -1,5 +1,5 @@
 .driver-container {
-  padding: 0; /* Eliminamos el padding temporalmente para ver si afecta el layout */
+  padding: 20px; /* Eliminamos el padding temporalmente para ver si afecta el layout */
   display: flex;
   flex-direction: column;
   align-items: center;

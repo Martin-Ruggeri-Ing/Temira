@@ -21,12 +21,12 @@
   
     <!-- Grid de 3x3 para las tarjetas -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <app-driver-detail
+      <app-detail-driver
         *ngFor="let driver of drivers; index as i"
         [firstName]="driver.firstName"
         [lastName]="driver.lastName"
         [index]="i"
-      ></app-driver-detail>
+      ></app-detail-driver>
     </div>
   </div>
   
