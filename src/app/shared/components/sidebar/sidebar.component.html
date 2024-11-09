@@ -1,38 +1,45 @@
 <aside
   class="bg-gradient-to-br from-gray-800 to-gray-900 -translate-x-80 fixed inset-0 z-50 my-4 ml-4 h-[calc(100vh-32px)] w-72 rounded-xl transition-transform duration-300 xl:translate-x-0"
 >
-  <div class="relative border-b border-white/20">
-    <a class="flex items-center gap-4 py-6 px-8" href="#/">
-      <h6
-        class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-white"
-      >
-        Material Tailwind Dashboard
-      </h6>
-    </a>
-    <button
-      class="middle none font-sans font-medium text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-8 max-w-[32px] h-8 max-h-[32px] rounded-lg text-xs text-white hover:bg-white/10 active:bg-white/30 absolute right-0 top-0 grid rounded-br-none rounded-tl-none xl:hidden"
-      type="button"
-    >
-      <span
-        class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
+  <div class="m-4 border-b border-white/20">
+    <ul class="mb-4 flex flex-col gap-1">
+      <button
+        (click)="logout()"
+        class="middle none font-sans font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg text-white hover:bg-white/10 active:bg-white/30 flex w-full items-center gap-4 px-4 capitalize"        type="button"
       >
         <svg
+          id="Capa_1"
+          enable-background="new 0 0 511.957 511.957"
+          viewBox="0 0 511.957 511.957"
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2.5"
-          stroke="currentColor"
-          aria-hidden="true"
-          class="h-5 w-5 text-white"
+          width="50"
+          height="50"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
+          <g>
+            <path
+              d="m390.957 165.979v-30h-20.907l30-61h-69.093v30h20.907l-30 61z"
+              fill="#000000"
+              style="fill: rgb(255, 255, 255)"
+            ></path>
+            <path
+              d="m510.692 14.979h-89.735v30h39.265l-49.5 91h101.235v-30h-50.765z"
+              fill="#000000"
+              style="fill: rgb(255, 255, 255)"
+            ></path>
+            <path
+              d="m10.221 326.454c.583.598 8.272 8.421 21.831 19.657l-27.021 17.217 16.121 25.3 36.208-23.071c14.267 10.176 29.098 19.535 44.613 27.982l-37.425 30.868 19.088 23.144 47.875-39.487c12.377 5.447 24.802 10.128 37.215 14.004l-30.759 53.276 25.98 15 34.896-60.441c14.151 2.951 28.219 4.841 42.114 5.635v61.44h30v-61.44c13.895-.794 27.963-2.685 42.114-5.635l34.896 60.441 25.98-15-30.759-53.276c12.413-3.876 24.838-8.557 37.215-14.004l47.875 39.487 19.088-23.144-37.425-30.868c15.515-8.447 30.346-17.806 44.613-27.982l36.208 23.071 16.121-25.3-27.021-17.217c13.559-11.236 21.248-19.059 21.831-19.657l10.221-10.476-10.221-10.476c-47.99-49.186-145.9-109.524-245.736-109.524-92.622 0-191.915 54.363-245.736 109.524l-10.221 10.477zm245.736-100.475c77.24 0 155.566 39.551 212.967 90-57.389 50.439-135.681 90-212.967 90-77.332 0-155.686-39.664-212.968-90 57.369-50.414 135.619-90 212.968-90z"
+              fill="#000000"
+              style="fill: rgb(255, 255, 255)"
+            ></path>
+          </g>
         </svg>
-      </span>
-    </button>
+        <p
+          class="block antialiased font-sans text-base leading-relaxed text-inherit font-medium capitalize"
+        >
+          Log out
+        </p>
+      </button>
+    </ul>
   </div>
   <div class="m-4">
     <ul class="mb-4 flex flex-col gap-1">

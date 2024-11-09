@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, tap} from 'rxjs';
 import { LoginRequest } from '../models/login.model';
 import { environment } from '../environments/environment';
 import { HandleErrorService } from './handle-error.service';
@@ -15,8 +15,6 @@ export class AuthService {
   private loginUrl = environment.apiUrl+'/auth/login';
   private tokenKey = 'authToken';
 
-  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
 
   constructor(private httpClient: HttpClient, private router: Router, private handleErrorService: HandleErrorService) { }
 
@@ -25,7 +23,6 @@ export class AuthService {
       tap(response => {
         console.log('AuthService.login', response.token);
         localStorage.setItem(this.tokenKey, response.token);
-        this.currentUserLoginOn.next(true);
       }),
       catchError(this.handleErrorService.handleError) // Captura los errores
     );
@@ -55,10 +52,5 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/login']);
   }
-
-  get userLoginOn(): Observable<boolean> {
-    return this.currentUserLoginOn.asObservable();
-  }
-
 
 }

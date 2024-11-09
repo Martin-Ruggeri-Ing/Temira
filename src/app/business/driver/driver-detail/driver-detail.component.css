@@ -1,0 +1,7 @@
+.card {
+    height: 200px; /* Ajusta el tamaño según lo que necesites */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
