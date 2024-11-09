@@ -28,7 +28,6 @@
         </div>
 
         <div class="space-y-6">
-          <!-- Campo de usuario -->
           <div>
             <input
               formControlName="username"
@@ -36,33 +35,25 @@
               type="text"
               placeholder="Username"
             />
-            <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+            <div *ngIf="(username?.touched || username?.dirty) && username?.invalid">
               <p class="text-red-600 text-xs mt-1">Nombre de usuario es requerido</p>
             </div>
           </div>
-
-          <!-- Campo de contraseña -->
           <div class="relative">
             <input
               formControlName="password"
               type="password"
               placeholder="Password"
-              class="text-sm text-gray-200 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
+              class="text-sm text-gray-800 px-4 py-3 rounded-lg w-full bg-gray-200 focus:bg-gray-100 border border-gray-200 focus:outline-none focus:border-purple-400"
             />
-            <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+            <div *ngIf="(password?.touched || password?.dirty) && password?.invalid">
               <p class="text-red-600 text-xs mt-1">Contraseña es requerida</p>
             </div>
           </div>
-
-          <div class="flex items-center justify-between">
-            <div class="text-sm ml-auto">
-              <a href="#" class="text-purple-700 hover:text-purple-600">
-                ¿Olvidaste tu contraseña?
-              </a>
-            </div>
+          <!-- Mensaje de error de login -->
+          <div *ngIf="loginError" class="text-red-600 text-center text-xs mt-4">
+            {{ loginError }}
           </div>
-
-          <!-- Botón de inicio de sesión -->
           <div>
             <button
               type="submit"
@@ -70,11 +61,6 @@
             >
               Iniciar sesión
             </button>
-          </div>
-
-          <!-- Mensaje de error de login -->
-          <div *ngIf="loginError" class="text-red-600 text-center text-xs mt-4">
-            {{ loginError }}
           </div>
         </div>
       </form>

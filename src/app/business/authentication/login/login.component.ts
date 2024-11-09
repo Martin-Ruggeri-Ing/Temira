@@ -10,7 +10,7 @@ import { LoginRequest } from '../../../models/login.model';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export default class LoginComponent {
   loginForm : FormGroup;
@@ -27,15 +27,27 @@ export default class LoginComponent {
     });
   }
 
+  get username() {
+    return this.loginForm.get('username');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
   login() {
     if(this.loginForm.valid){
       this.loginError="";
       const loginRequest: LoginRequest = this.loginForm.value;
       this.authService.login(loginRequest).subscribe({
         next: () => this.router.navigate(['/sleep-detector']),
-        error: (err) => console.error('Login error', err),
+        error: (err) => {
+          console.error('Login error', err);
+          this.loginError = err;
+          this.password?.reset();
+        },
         complete: () => {
-          console.log('Login complete')
+          console.log('Login complete');
           this.loginForm.reset();
         }
       });

@@ -1,25 +1,33 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { LoginRequest } from '../models/login.model';
+import { environment } from '../environments/environment';
+import { HandleErrorService } from './handle-error.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8080/temira/auth/login';
+  private loginUrl = environment.apiUrl+'/auth/login';
   private tokenKey = 'authToken';
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+
+  constructor(private httpClient: HttpClient, private router: Router, private handleErrorService: HandleErrorService) { }
 
   login(login: LoginRequest): Observable<any> {
     return this.httpClient.post<any>(this.loginUrl, login).pipe(
       tap(response => {
         console.log('AuthService.login', response.token);
         localStorage.setItem(this.tokenKey, response.token);
-      })
+        this.currentUserLoginOn.next(true);
+      }),
+      catchError(this.handleErrorService.handleError) // Captura los errores
     );
   }
 
@@ -46,6 +54,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/login']);
+  }
+
+  get userLoginOn(): Observable<boolean> {
+    return this.currentUserLoginOn.asObservable();
   }
 
 
