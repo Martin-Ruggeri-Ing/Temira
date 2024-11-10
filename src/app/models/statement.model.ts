@@ -1,7 +1,7 @@
 export interface StatementRequest {
-    "sleepDetector": string,
-    "driver": string,
-    "vehicle": string,
+    "sleepDetectorId": string,
+    "driverId": string,
+    "vehicleId": string,
     "destination": string,
     "csvFile": File,
 }

@@ -8,8 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './detail-vehicle.component.css'
 })
 export class DetailVehicleComponent  implements OnInit {
-  @Input() firstName!: string;
-  @Input() lastName!: string;
+  @Input() brand!: string;
+  @Input() type!: string;
+  @Input() registration!: string;
+  @Input() model!: number;
   @Input() index!: number;  // Recibe el índice de la tarjeta
 
   avatarColor!: string;

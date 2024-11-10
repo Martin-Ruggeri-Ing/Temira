@@ -1,88 +1,141 @@
 <div
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
 >
-    <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-lg relative max-h-screen overflow-auto">
-        <!-- Header con el Botón de Cerrar -->
-        <div class="flex justify-end">
-        <button
-            (click)="closeModal.emit()"
-            class="text-gray-500 hover:text-gray-600 text-2xl"
-            aria-label="Cerrar"
+  <div
+    class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-lg relative max-h-screen overflow-auto"
+  >
+    <!-- Header con el Botón de Cerrar -->
+    <div class="flex justify-end">
+      <button
+        (click)="closeModal.emit()"
+        class="text-gray-500 hover:text-gray-600 text-2xl"
+        aria-label="Cerrar"
+      >
+        &times;
+      </button>
+    </div>
+    <h2 class="font-semibold text-2xl text-gray-800 mb-6">
+      Agregar Nuevo Sleep Detector
+    </h2>
+    <!-- Mostrar un mensaje de carga mientras se cargan las opciones -->
+    <div
+      *ngIf="isLoadingBrands || isLoadingTypes"
+      class="text-center text-gray-500"
+    >
+      Loading vehicle options...
+    </div>
+
+    <!-- Formulario para agregar un nuevo vehículo -->
+    <form
+      *ngIf="!isLoadingBrands && !isLoadingTypes"
+      [formGroup]="addVehicleForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-6"
+    >
+      <!-- Campo de registro -->
+      <div>
+        <label
+          for="registration"
+          class="block text-sm font-medium text-gray-600"
+          >Registro:</label
         >
-            &times;
-        </button>
+        <input
+          id="registration"
+          formControlName="registration"
+          type="text"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+          placeholder="Registro"
+        />
+        <div
+          *ngIf="
+            addVehicleForm.get('registration')?.invalid &&
+            addVehicleForm.get('registration')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">El registro es requerido.</p>
         </div>
-        <h2 class="font-semibold text-2xl text-gray-800 mb-6">Agregar Nuevo Conductor</h2>
+      </div>
 
-        <form [formGroup]="addVehicleForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        <!-- First Name Field -->
-        <div>
-            <label for="type" class="block text-sm font-medium text-gray-600">Nombre:</label>
-            <input
-            id="type"
-            formControlName="type"
-            type="text"
-            class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-            placeholder="Nombre"
-            />
-            <div *ngIf="addVehicleForm.get('type')?.invalid && addVehicleForm.get('type')?.touched">
-            <p class="text-red-600 text-xs mt-1">El nombre es requerido.</p>
-            </div>
+      <!-- Campo de modelo -->
+      <div>
+        <label for="model" class="block text-sm font-medium text-gray-600"
+          >Modelo (Año):</label
+        >
+        <input
+          id="model"
+          formControlName="model"
+          type="number"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+          placeholder="Modelo (Año)"
+        />
+        <div
+          *ngIf="
+            addVehicleForm.get('model')?.invalid &&
+            addVehicleForm.get('model')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">
+            El modelo es requerido y debe ser un año válido.
+          </p>
         </div>
+      </div>
 
-        <!-- Last Name Field -->
-        <div>
-            <label for="brand" class="block text-sm font-medium text-gray-600">Apellido:</label>
-            <input
-            id="brand"
-            formControlName="brand"
-            type="text"
-            class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-            placeholder="Apellido"
-            />
-            <div *ngIf="addVehicleForm.get('brand')?.invalid && addVehicleForm.get('brand')?.touched">
-            <p class="text-red-600 text-xs mt-1">El apellido es requerido.</p>
-            </div>
+      <!-- Campo de marca -->
+      <div>
+        <label for="brand" class="block text-sm font-medium text-gray-600"
+          >Marca:</label
+        >
+        <select
+          id="brand"
+          formControlName="brand"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        >
+          <option *ngFor="let brand of brandOptions" [value]="brand.id">
+            {{ brand.name }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addVehicleForm.get('brand')?.invalid &&
+            addVehicleForm.get('brand')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">La marca es requerida.</p>
         </div>
+      </div>
 
-        <!-- First Name Field -->
-        <div>
-            <label for="registration" class="block text-sm font-medium text-gray-600">Nombre:</label>
-            <input
-                id="registration"
-                formControlName="registration"
-                type="text"
-                class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                placeholder="Nombre"
-            />
-            <div *ngIf="addVehicleForm.get('registration')?.invalid && addVehicleForm.get('registration')?.touched">
-                <p class="text-red-600 text-xs mt-1">El nombre es requerido.</p>
-            </div>
-            </div>
-    
-            <!-- Last Name Field -->
-            <div>
-            <label for="model" class="block text-sm font-medium text-gray-600">Apellido:</label>
-            <input
-                id="model"
-                formControlName="model"
-                type="text"
-                class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
-                placeholder="Apellido"
-            />
-            <div *ngIf="addVehicleForm.get('model')?.invalid && addVehicleForm.get('model')?.touched">
-                <p class="text-red-600 text-xs mt-1">El apellido es requerido.</p>
-            </div>
-            </div>
+      <!-- Campo de tipo -->
+      <div>
+        <label for="type" class="block text-sm font-medium text-gray-600"
+          >Tipo:</label
+        >
+        <select
+          id="type"
+          formControlName="type"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        >
+          <option *ngFor="let type of typeOptions" [value]="type.id">
+            {{ type.name }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addVehicleForm.get('type')?.invalid &&
+            addVehicleForm.get('type')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">El tipo es requerido.</p>
+        </div>
+      </div>
 
-      <!-- Submit Button -->
+      <!-- Botón de envío -->
       <div>
         <button
           type="submit"
           [disabled]="addVehicleForm.invalid"
           class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
         >
-          Agregar Conductor
+          Agregar Vehículo
         </button>
       </div>
     </form>

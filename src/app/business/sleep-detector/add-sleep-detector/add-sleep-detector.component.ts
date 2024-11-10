@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+// File path: src/app/components/sleep-detector/add-sleep-detector/add-sleep-detector.component.ts
+
+import { Component, EventEmitter, Inject, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SleepDetectorService } from '../../../services/sleep-detector.service';
@@ -11,46 +13,50 @@ import { SleepDetectorRequest, SleepDetectorModel } from '../../../models/sleep-
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule]
 })
-export class AddSleepDetectorComponent {
+export class AddSleepDetectorComponent implements OnInit {
   @Output() closeModal = new EventEmitter<void>();
   addSleepDetectorForm: FormGroup;
-
-  // Model options with their corresponding UUIDs
-  modelOptions: SleepDetectorModel[] = [
-    {
-      id: 'd2d69b18-8e32-11ef-bba2-0242ac130002',
-      name: 'Rspberry-Pi'
-    },
-    {
-      id: 'p2d69b18-8e32-11ef-bba2-0242ac130002',
-      name: 'Arduino'
-    },
-    // You can add more models here as needed
-  ];
+  modelOptions: SleepDetectorModel[] = [];
+  isLoadingModels = true; 
 
   constructor(
     private fb: FormBuilder,
     @Inject(SleepDetectorService) private sleepDetectorService: SleepDetectorService
   ) {
-    // Initialize form group with validation
     this.addSleepDetectorForm = this.fb.group({
       name: ['', [Validators.required]],
       model: ['', [Validators.required]]
     });
   }
 
-  // Submit handler for the form
-  onSubmit() {
+  ngOnInit(): void {
+    this.loadModelOptions(); // Fetch models on component initialization
+  }
+
+  // Method to load model options from the API
+  loadModelOptions(): void {
+    this.sleepDetectorService.getSleepDetectorsModels().subscribe({
+      next: (models) => {
+        this.modelOptions = models;
+        this.isLoadingModels = false; // Models loaded successfully
+      },
+      error: (err) => {
+        console.error('Error loading models:', err);
+        alert('Failed to load models. Please try again.');
+        this.isLoadingModels = false;
+      }
+    });
+  }
+
+  onSubmit(): void {
     if (this.addSleepDetectorForm.valid) {
       const formValues = this.addSleepDetectorForm.value;
-      
-      // Find the selected model by its name
-      const selectedModel = this.modelOptions.find(model => model.name === formValues.model);
+      const selectedModel = this.modelOptions.find(model => model.id === formValues.model);
 
       if (selectedModel) {
         const sleepDetectorData: SleepDetectorRequest = {
           name: formValues.name,
-          model: selectedModel // Pass the whole model object
+          model: selectedModel
         };
 
         this.sleepDetectorService.createSleepDetector(sleepDetectorData).subscribe({

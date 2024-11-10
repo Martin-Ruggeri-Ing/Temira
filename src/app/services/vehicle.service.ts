@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
-import { VehicleRequest, VehicleBrandResponse } from '../models/vehicle.model';
+import { VehicleRequest, VehicleBrand,  VehicleType, VehicleResponse} from '../models/vehicle.model';
 import { environment } from '../environments/environment';
 import { HandleErrorService } from './handle-error.service';
 
@@ -11,18 +11,31 @@ import { HandleErrorService } from './handle-error.service';
 export class VehicleService {
 
   private loginUrl = environment.apiUrl+'/vehicle';
-  private tokenKey = 'authToken';
+  private loginUrlBrand = environment.apiUrl+'/vehicleBrand';
+  private loginUrlType = environment.apiUrl+'/vehicleType';
 
   constructor(private http: HttpClient, private handleErrorService: HandleErrorService) { }
 
-  getVehicles(): Observable<VehicleBrandResponse[]> {
-    return this.http.get<VehicleBrandResponse[]>(`${this.loginUrl}/all`).pipe(
+  getVehicles(): Observable<VehicleResponse[]> {
+    return this.http.get<VehicleResponse[]>(`${this.loginUrl}/all`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
-  getVehicle(id: string): Observable<VehicleBrandResponse> {
-    return this.http.get<VehicleBrandResponse>(`${this.loginUrl}/${id}`).pipe(
+  getVehicleBrands(): Observable<VehicleBrand[]> {
+    return this.http.get<VehicleBrand[]>(`${this.loginUrlBrand}/all`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  getVehicleTypes(): Observable<VehicleType[]> {
+    return this.http.get<VehicleType[]>(`${this.loginUrlType}/all`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  getVehicle(id: string): Observable<VehicleResponse> {
+    return this.http.get<VehicleResponse>(`${this.loginUrl}/${id}`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }

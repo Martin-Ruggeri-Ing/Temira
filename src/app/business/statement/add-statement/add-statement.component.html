@@ -1,1 +1,166 @@
-<p>add-statement works!</p>
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-lg relative max-h-screen overflow-auto"
+  >
+    <!-- Header con el Botón de Cerrar -->
+    <div class="flex justify-end">
+      <button
+        (click)="closeModal.emit()"
+        class="text-gray-500 hover:text-gray-600 text-2xl"
+        aria-label="Cerrar"
+      >
+        &times;
+      </button>
+    </div>
+    <h2 class="font-semibold text-2xl text-gray-800 mb-6">
+      Agregar Nuevo Sleep Detector
+    </h2>
+
+    <!-- Show loading messages while fetching options -->
+    <div
+      *ngIf="isLoadingDrivers || isLoadingVehicles || isLoadingSleepDetectors"
+      class="text-center text-gray-500"
+    >
+      Loading options...
+    </div>
+
+    <!-- Form to add a new statement -->
+    <form
+      *ngIf="
+        !isLoadingDrivers && !isLoadingVehicles && !isLoadingSleepDetectors
+      "
+      [formGroup]="addStatementForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-6"
+    >
+      <!-- Driver Field -->
+      <div>
+        <label for="driverId" class="block text-sm font-medium text-gray-600"
+          >Driver:</label
+        >
+        <select
+          id="driverId"
+          formControlName="driverId"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        >
+          <option *ngFor="let driver of driverOptions" [value]="driver.id">
+            {{ driver.firstName }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addStatementForm.get('driverId')?.invalid &&
+            addStatementForm.get('driverId')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">Driver is required.</p>
+        </div>
+      </div>
+
+      <!-- Vehicle Field -->
+      <div>
+        <label for="vehicleId" class="block text-sm font-medium text-gray-600"
+          >Vehicle:</label
+        >
+        <select
+          id="vehicleId"
+          formControlName="vehicleId"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        >
+          <option *ngFor="let vehicle of vehicleOptions" [value]="vehicle.id">
+            {{ vehicle.registration }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addStatementForm.get('vehicleId')?.invalid &&
+            addStatementForm.get('vehicleId')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">Vehicle is required.</p>
+        </div>
+      </div>
+
+      <!-- Sleep Detector Field -->
+      <div>
+        <label
+          for="sleepDetectorId"
+          class="block text-sm font-medium text-gray-600"
+          >Sleep Detector:</label
+        >
+        <select
+          id="sleepDetectorId"
+          formControlName="sleepDetectorId"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        >
+          <option
+            *ngFor="let sleepDetector of sleepDetectorOptions"
+            [value]="sleepDetector.id"
+          >
+            {{ sleepDetector.name }}
+          </option>
+        </select>
+        <div
+          *ngIf="
+            addStatementForm.get('sleepDetectorId')?.invalid &&
+            addStatementForm.get('sleepDetectorId')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">Sleep Detector is required.</p>
+        </div>
+      </div>
+
+      <!-- Destination Field -->
+      <div>
+        <label for="destination" class="block text-sm font-medium text-gray-600"
+          >Destination:</label
+        >
+        <input
+          id="destination"
+          formControlName="destination"
+          type="text"
+          class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+          placeholder="Destination"
+        />
+        <div
+          *ngIf="
+            addStatementForm.get('destination')?.invalid &&
+            addStatementForm.get('destination')?.touched
+          "
+        >
+          <p class="text-red-600 text-xs mt-1">Destination is required.</p>
+        </div>
+      </div>
+
+      <!-- CSV File Upload Field -->
+      <div>
+        <label for="csvFile" class="block text-sm font-medium text-gray-600"
+          >CSV File:</label
+        >
+        <input
+          id="csvFile"
+          type="file"
+          (change)="onFileSelected($event)"
+          class="w-full px-4 py-3 bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+          accept=".csv"
+        />
+        <div *ngIf="!csvFile">
+          <p class="text-red-600 text-xs mt-1">CSV file is required.</p>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div>
+        <button
+          type="submit"
+          [disabled]="addStatementForm.invalid || !csvFile"
+          class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
+        >
+          Create Statement
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,1 +1,64 @@
-<p>statement works!</p>
+<div class="statement-container flex flex-col items-center justify-center min-h-screen">
+    <!-- Modal para el formulario de agregar Sleep Detector -->
+    <div
+      *ngIf="showAddStatementModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <div class="modal-content bg-white p-6 rounded-lg shadow-lg relative max-w-lg w-full">
+        <app-add-statement (closeModal)="closeAddStatementModal()"></app-add-statement>
+        <button
+          (click)="closeAddStatementModal()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+        >
+          &times;
+        </button>
+      </div>
+    </div>
+  
+    <!-- Contenedor principal para centrar la grilla -->
+    <div class="container mx-auto p-4 text-center">
+      <h3 class="text-2xl font-bold mb-4">Lista de Sleep Detectors</h3>
+  
+      <!-- Grid de 3x4 para las tarjetas -->
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <app-detail-statement
+          *ngFor="let statement of paginatedStatements; index as i"
+          [sleepDetector]="statement.sleepDetector"
+          [driver]="statement.driver"
+          [vehicle]="statement.vehicle"
+          [destination]="statement.destination"
+          [pathPdf]="statement.pathPdf"
+          [index]="i"
+        ></app-detail-statement>
+      </div>
+  
+      <!-- Controles de paginación -->
+      <div class="pagination-controls flex justify-center mt-4 space-x-4">
+        <button
+          (click)="previousPage()"
+          [disabled]="getCurrentPage() === 0"
+          class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+        >
+          Anterior
+        </button>
+        <span class="text-gray-700 font-semibold">
+          Página {{ getCurrentPage() + 1 }} de {{ getTotalPages() }}
+        </span>
+        <button
+          (click)="nextPage()"
+          [disabled]="getCurrentPage() >= getTotalPages() - 1"
+          class="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
+  
+    <!-- Botón para abrir el modal de agregar Sleep Detector -->
+    <button
+      (click)="openAddStatementModal()"
+      class="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-2 px-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 mb-6"
+    >
+      Agregar Sleep Detector
+    </button>
+  </div>

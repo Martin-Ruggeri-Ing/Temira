@@ -1,1 +1,42 @@
-<p>vehicle works!</p>
+<div class="vehicle-container flex flex-col items-center justify-center min-h-screen">
+    <!-- Modal para el formulario de agregar Sleep Detector -->
+    <div
+      *ngIf="showAddVehicleModal"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+        <div class="modal-content bg-white p-6 rounded-lg shadow-lg relative max-w-lg w-full">
+            <app-add-vehicle (closeModal)="closeAddVehicleModal()"></app-add-vehicle>
+            <button
+            (click)="closeAddVehicleModal()"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+            &times;
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenedor principal para centrar la grilla -->
+    <div class="container mx-auto p-4 text-center">
+        <h3 class="text-2xl font-bold mb-4">Lista de Sleep Detectors</h3>
+    
+        <!-- Grid de 3x3 para las tarjetas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <app-detail-vehicle
+            *ngFor="let vehicle of vehicles; index as i"
+                [brand]="vehicle.brand"
+                [type]="vehicle.type"
+                [registration]="vehicle.registration"
+                [model]="vehicle.model"
+                [index]="i"
+            ></app-detail-vehicle>
+        </div>
+    </div>
+
+    <!-- Botón para abrir el modal de agregar Sleep Detector -->
+    <button
+        (click)="openAddVehicleModal()"
+      class="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-2 px-6 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 mb-6"
+    >
+        Agregar Sleep Detector
+    </button>
+</div>

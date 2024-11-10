@@ -1,5 +1,9 @@
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-lg relative max-h-screen overflow-auto">
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-3xl shadow-xl p-8 w-full max-w-lg relative max-h-screen overflow-auto"
+  >
     <!-- Header con el Botón de Cerrar -->
     <div class="flex justify-end">
       <button
@@ -10,12 +14,27 @@
         &times;
       </button>
     </div>
-    <h2 class="font-semibold text-2xl text-gray-800 mb-6">Agregar Nuevo Sleep Detector</h2>
+    <h2 class="font-semibold text-2xl text-gray-800 mb-6">
+      Agregar Nuevo Sleep Detector
+    </h2>
 
-    <form [formGroup]="addSleepDetectorForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Display a loading spinner or message while models are being loaded -->
+    <div *ngIf="isLoadingModels" class="text-center text-gray-500">
+      Loading models...
+    </div>
+
+    <!-- Form to add a new sleep detector -->
+    <form
+      *ngIf="!isLoadingModels"
+      [formGroup]="addSleepDetectorForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-6"
+    >
       <!-- Name Field -->
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-600">Nombre:</label>
+        <label for="name" class="block text-sm font-medium text-gray-600"
+          >Nombre:</label
+        >
         <input
           id="name"
           formControlName="name"
@@ -23,22 +42,36 @@
           class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
           placeholder="Nombre"
         />
-        <div *ngIf="addSleepDetectorForm.get('name')?.invalid && addSleepDetectorForm.get('name')?.touched">
+        <div
+          *ngIf="
+            addSleepDetectorForm.get('name')?.invalid &&
+            addSleepDetectorForm.get('name')?.touched
+          "
+        >
           <p class="text-red-600 text-xs mt-1">El nombre es requerido.</p>
         </div>
       </div>
 
       <!-- Model Field -->
       <div>
-        <label for="model" class="block text-sm font-medium text-gray-600">Modelo:</label>
+        <label for="model" class="block text-sm font-medium text-gray-600"
+          >Modelo:</label
+        >
         <select
           id="model"
           formControlName="model"
           class="w-full px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
         >
-          <option *ngFor="let model of modelOptions" [value]="model.name">{{ model.name }}</option>
+          <option *ngFor="let model of modelOptions" [value]="model.id">
+            {{ model.name }}
+          </option>
         </select>
-        <div *ngIf="addSleepDetectorForm.get('model')?.invalid && addSleepDetectorForm.get('model')?.touched">
+        <div
+          *ngIf="
+            addSleepDetectorForm.get('model')?.invalid &&
+            addSleepDetectorForm.get('model')?.touched
+          "
+        >
           <p class="text-red-600 text-xs mt-1">El modelo es requerido.</p>
         </div>
       </div>

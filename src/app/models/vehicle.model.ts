@@ -1,12 +1,18 @@
-
+export interface VehicleBrand {
+    "id": string,
+    "name": string
+}
+export interface VehicleType { 
+    "id": string,
+    "name": string
+}
 
 export interface VehicleRequest {
-    "type": string,
-    "brand": string,
+    "type": VehicleType,
+    "brand": VehicleBrand,
     "registration": string,
     "model": number
 }
-
 
 export interface VehicleResponse {
     "id": string,

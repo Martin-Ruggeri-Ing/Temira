@@ -26,7 +26,7 @@ export class StatementService {
     );
   }
 
-  createStatement(statement: StatementRequest): Observable<any> {
+  createStatement(statement: FormData): Observable<any> {
     return this.http.post<any>(`${this.loginUrl}/add`, statement).pipe(
       catchError(this.handleErrorService.handleError)
     );
