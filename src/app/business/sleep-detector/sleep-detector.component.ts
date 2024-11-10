@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SleepDetectorService } from '../../services/sleep-detector.service';
+import { PaginationService } from '../../services/pagination.service';
 import { SleepDetectorResponse } from '../../models/sleep-detector.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,30 +16,56 @@ import { DetailSleepDetectorComponent } from './detail-sleep-detector/detail-sle
 })
 export class SleepDetectorComponent implements OnInit {
   sleepDetectors: SleepDetectorResponse[] = [];
-  showAddSleepDetectorModal = false; // Controls the visibility of the modal
+  paginatedSleepDetectors: SleepDetectorResponse[] = [];
+  showAddSleepDetectorModal = false;
 
-  constructor(private sleepDetectorService: SleepDetectorService) {}
+  constructor(
+    private sleepDetectorService: SleepDetectorService,
+    private paginationService: PaginationService
+  ) {}
 
   ngOnInit(): void {
-    this.loadSleepDetectors(); // Loads the list of sleep detectors on initialization
+    this.loadSleepDetectors();
   }
 
-  // Load the list of sleep detectors from the service
   loadSleepDetectors(): void {
     this.sleepDetectorService.getSleepDetectors().subscribe({
-      next: (data) => this.sleepDetectors = data,
+      next: (data) => {
+        this.sleepDetectors = data;
+        this.updatePaginatedSleepDetectors();
+      },
       error: (err) => console.error('Error loading sleep detectors:', err)
     });
   }
 
-  // Open the modal to add a new sleep detector
+  updatePaginatedSleepDetectors(): void {
+    this.paginatedSleepDetectors = this.paginationService.getPaginatedItems(this.sleepDetectors);
+  }
+
   openAddSleepDetectorModal(): void {
     this.showAddSleepDetectorModal = true;
   }
 
-  // Close the modal and reload the list of sleep detectors
   closeAddSleepDetectorModal(): void {
     this.showAddSleepDetectorModal = false;
-    this.loadSleepDetectors(); // Reload the list after adding a sleep detector
+    this.loadSleepDetectors();
+  }
+
+  nextPage(): void {
+    this.paginationService.nextPage();
+    this.updatePaginatedSleepDetectors();
+  }
+
+  previousPage(): void {
+    this.paginationService.previousPage();
+    this.updatePaginatedSleepDetectors();
+  }
+
+  getCurrentPage(): number {
+    return this.paginationService.getCurrentPage();
+  }
+
+  getTotalPages(): number {
+    return this.paginationService.getTotalPages(this.sleepDetectors);
   }
 }

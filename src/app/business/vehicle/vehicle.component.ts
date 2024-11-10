@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../../services/vehicle.service';
+import { PaginationService } from '../../services/pagination.service';
 import { VehicleResponse } from '../../models/vehicle.model';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,30 +16,56 @@ import { DetailVehicleComponent } from './detail-vehicle/detail-vehicle.componen
 })
 export class VehicleComponent implements OnInit {
   vehicles: VehicleResponse[] = [];
-  showAddVehicleModal = false; // Controls the visibility of the modal
+  paginatedVehicles: VehicleResponse[] = [];
+  showAddVehicleModal = false;
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(
+    private vehicleService: VehicleService,
+    private paginationService: PaginationService
+  ) {}
 
   ngOnInit(): void {
-    this.loadVehicles(); // Loads the list of sleep detectors on initialization
+    this.loadVehicles();
   }
 
-  // Load the list of sleep detectors from the service
   loadVehicles(): void {
     this.vehicleService.getVehicles().subscribe({
-      next: (data) => this.vehicles = data,
-      error: (err) => console.error('Error loading sleep detectors:', err)
+      next: (data) => {
+        this.vehicles = data;
+        this.updatePaginatedVehicles();
+      },
+      error: (err) => console.error('Error loading vehicles:', err)
     });
   }
 
-  // Open the modal to add a new sleep detector
+  updatePaginatedVehicles(): void {
+    this.paginatedVehicles = this.paginationService.getPaginatedItems(this.vehicles);
+  }
+
   openAddVehicleModal(): void {
     this.showAddVehicleModal = true;
   }
 
-  // Close the modal and reload the list of sleep detectors
   closeAddVehicleModal(): void {
     this.showAddVehicleModal = false;
-    this.loadVehicles(); // Reload the list after adding a sleep detector
+    this.loadVehicles();
+  }
+
+  nextPage(): void {
+    this.paginationService.nextPage();
+    this.updatePaginatedVehicles();
+  }
+
+  previousPage(): void {
+    this.paginationService.previousPage();
+    this.updatePaginatedVehicles();
+  }
+
+  getCurrentPage(): number {
+    return this.paginationService.getCurrentPage();
+  }
+
+  getTotalPages(): number {
+    return this.paginationService.getTotalPages(this.vehicles);
   }
 }
