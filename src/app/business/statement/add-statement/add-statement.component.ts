@@ -39,8 +39,7 @@ export class AddStatementComponent implements OnInit {
       sleepDetectorId: ['', [Validators.required]],
       driverId: ['', [Validators.required]],
       vehicleId: ['', [Validators.required]],
-      destination: ['', [Validators.required]],
-      csvFile: [null, [Validators.required]]
+      destination: ['', [Validators.required]]
     });
   }
 
@@ -100,6 +99,7 @@ export class AddStatementComponent implements OnInit {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files.length > 0) {
       this.csvFile = fileInput.files[0];
+      console.log('CSV file selected:', this.csvFile);
     }
   }
 
@@ -107,25 +107,18 @@ export class AddStatementComponent implements OnInit {
   onSubmit(): void {
     if (this.addStatementForm.valid && this.csvFile) {
       const formValues = this.addStatementForm.value;
-      const statementData: StatementRequest = {
-        sleepDetectorId: formValues.sleepDetectorId,
-        driverId: formValues.driverId,
-        vehicleId: formValues.vehicleId,
-        destination: formValues.destination,
-        csvFile: this.csvFile
-      };
-
-      // Using FormData to handle file upload
       const formData = new FormData();
-      formData.append('sleepDetectorId', statementData.sleepDetectorId);
-      formData.append('driverId', statementData.driverId);
-      formData.append('vehicleId', statementData.vehicleId);
-      formData.append('destination', statementData.destination);
-      formData.append('csvFile', statementData.csvFile);
+      formData.append('sleepDetectorId', formValues.sleepDetectorId);
+      formData.append('driverId', formValues.driverId);
+      formData.append('vehicleId', formValues.vehicleId);
+      formData.append('destination', formValues.destination);
+      formData.append('csvFile', this.csvFile);
 
       this.statementService.createStatement(formData).subscribe({
         next: () => {
           this.closeModal.emit();
+          this.addStatementForm.reset();
+          this.csvFile = null;
         },
         error: (err) => {
           console.error('Error creating statement:', err);

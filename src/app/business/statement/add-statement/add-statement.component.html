@@ -146,7 +146,7 @@
           class="w-full px-4 py-3 bg-gray-200 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
           accept=".csv"
         />
-        <div *ngIf="!csvFile">
+        <div *ngIf="!csvFile || addStatementForm.get('csvFile')?.invalid && addStatementForm.get('csvFile')?.touched">
           <p class="text-red-600 text-xs mt-1">CSV file is required.</p>
         </div>
       </div>
@@ -155,7 +155,7 @@
       <div>
         <button
           type="submit"
-          [disabled]="addStatementForm.invalid || !csvFile"
+
           class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
         >
           Create Statement
